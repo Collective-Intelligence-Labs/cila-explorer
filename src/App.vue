@@ -1,26 +1,52 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-</template>
+    <div>
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/">
+            My App
+          </a>
+  
+          <a
+            role="button"
+            class="navbar-burger burger"
+            aria-label="menu"
+            aria-expanded="false"
+            @click="isNavOpen = !isNavOpen"
+            :class="{ 'is-active': isNavOpen }"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+  
+        <div class="navbar-menu" :class="{ 'is-active': isNavOpen }">
+          <div class="navbar-start">
+            <router-link class="navbar-item" to="/">Operations</router-link>
+          </div>
+        </div>
+      </nav>
+  
+      <router-view></router-view>
+    </div>
+  </template>
+  
+  <script>
+  import axios from "axios";
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+axios.defaults.baseURL = 'http://localhost:5276/api'
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+axios.defaults.headers.post['Content-Type'] = 'application/json'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  export default {
+    data() {
+      return {
+        isNavOpen: false,
+      };
+    },
+  };
+  </script>
+  
+  <style>
+  /* put your global styles here */
+  </style>

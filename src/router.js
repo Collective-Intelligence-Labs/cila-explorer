@@ -2,6 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Operations from '@/views/Operations.vue'
 import OperationDetails from '@/views/OperationDetails.vue'
 
+import NFTDocumentDetails from '@/views/NFTDocumentDetails.vue'
+import NFTDocuments from '@/views/NFTDocuments.vue'
+
+
 const routes = [
   {
     path: '/',
@@ -16,6 +20,17 @@ const routes = [
     path: '/operations/:id',
     name: 'OperationDetails',
     component: OperationDetails
+  },
+
+  {
+    path: '/nft',
+    name: 'NFTDocuments',
+    component: NFTDocuments
+  },
+  {
+    path: '/nft/:id',
+    name: 'NFTDocumentDetails',
+    component: NFTDocumentDetails
   }
 ]
 

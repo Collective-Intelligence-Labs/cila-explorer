@@ -25,8 +25,15 @@
             <router-link class="navbar-item" to="/">Operations</router-link>
           </div>
         </div>
+
+        <div class="navbar-menu" :class="{ 'is-active': isNavOpen }">
+          <div class="navbar-start">
+            <router-link class="navbar-item" to="/nft">NFTs</router-link>
+          </div>
+        </div>
       </nav>
   
+      
       <router-view></router-view>
     </div>
   </template>

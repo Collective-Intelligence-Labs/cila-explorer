@@ -71,7 +71,7 @@
         >
           <div class="event-header">
             <p class="event-timestamp">{{ formatDate(event.timestamp) }}</p>
-            <p class="event-type">{{ event.type }}</p>
+            <p class="event-type">{{ toEventTypeDescription(event.type) }}</p>
           </div>
           <div class="event-details">
             <p><strong>Portal ID:</strong> {{ event.portalId }}</p>
@@ -79,6 +79,7 @@
             <p><strong>Router ID:</strong> {{ event.routerId }}</p>
             <p><strong>Relay ID:</strong> {{ event.relayId }}</p>
             <p><strong>Core ID:</strong> {{ event.coreId }}</p>
+            <p><strong>Chain ID:</strong> {{ event.chainId }}</p>
             <p><strong>Aggregator ID:</strong> {{ event.aggregatorId }}</p>
             <p><strong>Operation ID:</strong> {{ event.operationId }}</p>
             <p><strong>Domain Events:</strong></p>
@@ -120,7 +121,15 @@ export default {
     },
     formatDate(date) {
       return new Date(date).toLocaleString();
-    }
+    },
+    toEventTypeDescription(eventType) {
+      if (eventType == 0) return "Unspecified";
+      if (eventType == 1) return "Operation Initiated";
+      if (eventType == 2) return "Chains synced";
+      if (eventType == 3) return "Read model updated";
+      if (eventType == 4) return "Transaction executed on chain";
+      if (eventType == 5) return "Routed for execution";
+    },
   },
   mounted() {
     this.loadOperationDetails()

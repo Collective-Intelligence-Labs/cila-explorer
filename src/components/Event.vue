@@ -45,6 +45,7 @@ export default {
         if (chainId == 5) return "Ethereum Goerli";
         if (chainId == 11155111) return "Ethereum Sepolia";
         if (chainId == 1313161555) return "Aurora Testnet";
+        return "Unknown";
     },
     getTxExplorerLink(tx, chainId) {
         if (tx) {

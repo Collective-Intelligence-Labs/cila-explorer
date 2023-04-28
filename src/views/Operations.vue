@@ -81,7 +81,7 @@ export default {
       if (status == "0") return '<i class="fa-solid fa-check" style="color: #23d100;"></i>';
       if (status == "1") return '<i class="fa-solid fa-spinner"></i>';
       if (status == "2") return '<i class="fa-solid fa-xmark" style="color: #c20505;"></i>';
-      return "Unknown";
+      return '<i class="fa-solid fa-spinner"></i>';
     }
   }
 };

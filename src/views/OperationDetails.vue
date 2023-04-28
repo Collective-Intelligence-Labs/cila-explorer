@@ -3,7 +3,6 @@
     <div class="container" v-if="operation">
       <h2 class="title">Operation Details</h2>
       <p><strong>ID:</strong> {{ operation.id }}</p>
-      <p><strong>Client ID:</strong> {{ operation.clientId }}</p>
       <p><strong>Created:</strong> {{ formatDate(operation.created) }}</p>
       <p><strong>Commands:</strong></p>
       <ul>
@@ -27,7 +26,7 @@
         <h3 class="column-title">Chains</h3>
         <ul class="sync-items-list">
           <li v-for="chain in operation.chains" :key="chain.id" class="sync-item">
-            <p class="sync-item-name">{{ chain.name }}</p>
+            <p class="sync-item-name">{{ toReadableChain(chain.id) }}</p>
             <p class="sync-item-id">ID: {{ chain.id }}</p>
             <p class="sync-item-timestamp">Timestamp: {{ formatDate(chain.timestamp) }}</p>
             <p class="sync-item-source">{{ chain.originalSource ? 'Original Source' : '' }}</p>
@@ -62,45 +61,24 @@
         </ul>
       </div>
     </div>
-      <p><strong>Infrastructure Events:</strong></p>
+      <p><strong>Events:</strong></p>
       <ul>
-        <li
-          v-for="event in operation.infrastructureEvents"
-          :key="event.eventId"
-          class="event-item"
-        >
-          <div class="event-header">
-            <p class="event-timestamp">{{ formatDate(event.timestamp) }}</p>
-            <p class="event-type">{{ toEventTypeDescription(event.type) }}</p>
-          </div>
-          <div class="event-details">
-            <p><strong>Portal ID:</strong> {{ event.portalId }}</p>
-            <p><strong>Event ID:</strong> {{ event.eventId }}</p>
-            <p><strong>Router ID:</strong> {{ event.routerId }}</p>
-            <p><strong>Relay ID:</strong> {{ event.relayId }}</p>
-            <p><strong>Core ID:</strong> {{ event.coreId }}</p>
-            <p><strong>Chain ID:</strong> {{ event.chainId }}</p>
-            <p><strong>Aggregator ID:</strong> {{ event.aggregatorId }}</p>
-            <p><strong>Operation ID:</strong> {{ event.operationId }}</p>
-            <p><strong>Domain Events:</strong></p>
-            <ul>
-              <li v-for="domainEvent in event.domainEvents" :key="domainEvent">{{ domainEvent }}</li>
-            </ul>
-            <p><strong>Domain Commands:</strong></p>
-            <ul>
-              <li v-for="domainCommand in event.domainCommands" :key="domainCommand">{{ domainCommand }}</li>
-            </ul>
-          </div>
+        <li v-for="event in operation.infrastructureEvents" :key="event.eventId" class="event-item">
+          <DomainEvent v-bind:event="event"/>
         </li>
       </ul>
     </div>
   </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import DomainEvent from '../components/Event.vue'
 
 export default {
   name: 'OperationDetails',
+  components: {
+    DomainEvent
+  },
   data() {
     return {
       operation: null,
@@ -124,11 +102,16 @@ export default {
     },
     toEventTypeDescription(eventType) {
       if (eventType == 0) return "Unspecified";
-      if (eventType == 1) return "Operation Initiated";
-      if (eventType == 2) return "Chains synced";
+      if (eventType == 1) return "Operation initiated";
+      if (eventType == 2) return "Chain sync";
       if (eventType == 3) return "Read model updated";
-      if (eventType == 4) return "Transaction executed on chain";
+      if (eventType == 4) return "Executed on chain";
       if (eventType == 5) return "Routed for execution";
+    },
+    toReadableChain(chainId) {
+        if (chainId == 5) return "Ethereum Goerli";
+        if (chainId == 11155111) return "Ethereum Sepolia";
+        if (chainId == 1313161555) return "Aurora Testnet";
     },
   },
   mounted() {

@@ -5,19 +5,38 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Client ID</th>
           <th>Created</th>
           <th>Commands</th>
-          <th>Infrastructure Events</th>
+          <th>Events</th>
+          <th>
+            Status
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+              <tbody>
+                <tr>
+                  <th v-for="s in operations[0].perChainStatus" :key="s.chainId">{{ s.chainName }}</th>
+                </tr>
+              </tbody>
+            </table>
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="operation in operations" :key="operation.id" @click="navigateToDetails(operation.id)" class="operation-row">
           <td>{{ operation.id }}</td>
-          <td>{{ operation.clientId }}</td>
           <td>{{ formatDate(operation.created) }}</td>
-          <td>{{ operation.commands.join(", ") }}</td>
+          <td>{{ operation.commands.length }}</td>
           <td>{{ operation.infrastructureEvents.length }}</td>
+          <td>
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+              <tbody>
+                <tr>
+                  <td v-for="s in operation.perChainStatus" :key="s.chainId">
+                    <div v-html="getChainStatusIcon(s.status)"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -57,6 +76,12 @@ export default {
     },
     formatDate(date) {
       return new Date(date).toLocaleString();
+    },
+    getChainStatusIcon(status) {
+      if (status == "0") return '<i class="fa-solid fa-check" style="color: #23d100;"></i>';
+      if (status == "1") return '<i class="fa-solid fa-spinner"></i>';
+      if (status == "2") return '<i class="fa-solid fa-xmark" style="color: #c20505;"></i>';
+      return "Unknown";
     }
   }
 };
@@ -84,6 +109,10 @@ export default {
   border-radius: 5px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+}
+
+.table .is-fullwidth {
+  width: 100%;
 }
 
 .operation-row:hover {

@@ -1,3 +1,4 @@
+
 <template>
     <div>
       <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -51,6 +52,12 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
         isNavOpen: false,
       };
     },
+    mounted() {
+      let fa = document.createElement('script')
+      fa.setAttribute('src', 'https://kit.fontawesome.com/20e36d25a4.js')
+      fa.setAttribute('crossorigin', "anonymous")
+      document.head.appendChild(fa)
+    }
   };
   </script>
   
